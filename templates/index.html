@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Interview Preparation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+    <h1>AI Interview Preparation & Career Guidance</h1>
+
+    <p><b>Welcome, {{ user_name }}</b></p>
+
+    <div class="nav">
+        <a href="/dashboard">My Dashboard</a>
+        <a href="/mock_interview">Voice Mock Interview</a>
+
+        {% if session["role"] == "admin" %}
+        <a href="/admin">Admin Dashboard</a>
+        {% endif %}
+
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="card-grid">
+        <div class="card">
+            <h2>ATS Score</h2>
+            <p>Analyze your resume for selected job roles.</p>
+        </div>
+
+        <div class="card">
+            <h2>AI Feedback</h2>
+            <p>Get improvement tips and career guidance.</p>
+        </div>
+
+        <div class="card">
+            <h2>Mock Interview</h2>
+            <p>Practice interview questions using voice.</p>
+        </div>
+    </div>
+
+    <h2>Upload Resume</h2>
+
+    <form action="/analyze" method="POST" enctype="multipart/form-data">
+        <label>Upload Resume PDF</label>
+        <input type="file" name="resume" accept=".pdf" required>
+
+        <label>Select Job Role</label>
+        <select name="job_role" required>
+            <option value="">Choose Role</option>
+            <option>Python Developer</option>
+            <option>Web Developer</option>
+            <option>Data Analyst</option>
+            <option>Java Developer</option>
+            <option>Cyber Security</option>
+        </select>
+
+        <button type="submit">Analyze Resume</button>
+    </form>
+</div>
+
+</body>
+</html>

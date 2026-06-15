@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Analysis Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Resume Analysis Report</h1>
+
+    <div class="nav">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/mock_interview">Mock Interview</a>
+
+        {% if session["role"] == "admin" %}
+        <a href="/admin">Admin Dashboard</a>
+        {% endif %}
+
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="score-box">
+        <p>ATS Score</p>
+        <div class="score">{{ ats_score }}/100</div>
+    </div>
+
+    <h2>Resume Rank Predictor</h2>
+
+    <div class="card-grid">
+
+        <div class="card">
+            <h3>Candidate Level</h3>
+            <h2>{{ candidate_level }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Interview Chance</h3>
+            <h2>{{ interview_chance }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Selection Probability</h3>
+            <h2>{{ selection_probability }}%</h2>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <h3>Rank Suggestion</h3>
+        <p>{{ rank_suggestion }}</p>
+    </div>
+
+    <div class="card-grid">
+
+        <div class="card">
+            <h3>File Name</h3>
+            <p>{{ filename }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Selected Role</h3>
+            <p>{{ job_role }}</p>
+        </div>
+
+    </div>
+
+    <h2>Matched Keywords</h2>
+
+    {% if matched_keywords %}
+        {% for keyword in matched_keywords %}
+            <span class="badge">{{ keyword }}</span>
+        {% endfor %}
+    {% else %}
+        <p>No matched keywords found.</p>
+    {% endif %}
+
+    <h2>Missing Keywords</h2>
+
+    {% if missing_keywords %}
+        {% for keyword in missing_keywords %}
+            <span class="badge badge-red">{{ keyword }}</span>
+        {% endfor %}
+    {% else %}
+        <p>No missing keywords. Good resume match.</p>
+    {% endif %}
+
+    <h2>AI Career Feedback</h2>
+    <pre>{{ ai_feedback }}</pre>
+
+    <a class="btn btn-green" href="/download_report">Download AI Report as PDF</a>
+    <a class="btn" href="/">Analyze Another Resume</a>
+    <a class="btn" href="/dashboard">View Dashboard</a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+    <h1>My Dashboard</h1>
+
+    <div class="nav">
+        <a href="/">Home</a>
+        <a href="/mock_interview">Voice Mock Interview</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <h2>Resume Analysis History</h2>
+
+    <table>
+        <tr>
+            <th>File Name</th>
+            <th>Job Role</th>
+            <th>ATS Score</th>
+            <th>Date</th>
+        </tr>
+
+        {% for result in results %}
+        <tr>
+            <td>{{ result[0] }}</td>
+            <td>{{ result[1] }}</td>
+            <td><b>{{ result[2] }}/100</b></td>
+            <td>{{ result[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Mock Interview History</h2>
+
+    <table>
+        <tr>
+            <th>Question</th>
+            <th>Your Answer</th>
+            <th>AI Feedback</th>
+            <th>Date</th>
+        </tr>
+
+        {% for interview in interviews %}
+        <tr>
+            <td>{{ interview[0] }}</td>
+            <td>{{ interview[1] }}</td>
+            <td><pre>{{ interview[2] }}</pre></td>
+            <td>{{ interview[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>

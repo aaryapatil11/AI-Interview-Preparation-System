@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voice Mock Interview</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Voice Mock Interview</h1>
+
+    <div class="nav">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="card">
+        <p><b>Status:</b> <span id="status">Ready</span></p>
+        
+    </div>
+
+    <form action="/submit_interview" method="POST">
+
+        <label>Select Interview Question</label>
+        <select name="question" id="question" required>
+            {% for q in questions %}
+            <option value="{{ q }}">{{ q }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="button" onclick="speakQuestion()">Listen Question</button>
+        <button type="button" onclick="startRecording()">Start Speaking</button>
+        <button type="button" class="btn-red" onclick="stopRecording()">Stop</button>
+
+        <label>Your Answer</label>
+        <textarea name="answer" id="answer" rows="8" required></textarea>
+
+        <button type="submit">Submit Answer</button>
+
+    </form>
+
+</div>
+
+<script>
+let recognition;
+let finalTranscript = "";
+
+function speakQuestion() {
+    const question = document.getElementById("question").value;
+    const speech = new SpeechSynthesisUtterance(question);
+
+    speech.lang = "en-US";
+    speech.rate = 0.9;
+
+    window.speechSynthesis.speak(speech);
+}
+
+function startRecording() {
+    const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        alert("Speech recognition is not supported in this browser. Please use Google Chrome.");
+        document.getElementById("status").innerText = "Browser not supported";
+        return;
+    }
+
+    finalTranscript = "";
+    recognition = new SpeechRecognition();
+
+    recognition.lang = "en-US";
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    recognition.onstart = function() {
+        document.getElementById("status").innerText = "Listening... Speak now";
+    };
+
+    recognition.onresult = function(event) {
+        let interimTranscript = "";
+
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            let transcript = event.results[i][0].transcript;
+
+            if (event.results[i].isFinal) {
+                finalTranscript += transcript + " ";
+            } else {
+                interimTranscript += transcript;
+            }
+        }
+
+        document.getElementById("answer").value =
+            finalTranscript + interimTranscript;
+    };
+
+    recognition.onerror = function(event) {
+        document.getElementById("status").innerText =
+            "Error: " + event.error;
+
+        if (event.error === "not-allowed") {
+            alert("Microphone permission denied. Please allow microphone access from browser settings.");
+        }
+
+        if (event.error === "no-speech") {
+            alert("No speech detected. Please try again.");
+        }
+    };
+
+    recognition.onend = function() {
+        document.getElementById("status").innerText = "Stopped";
+    };
+
+    recognition.start();
+}
+
+function stopRecording() {
+    if (recognition) {
+        recognition.stop();
+        document.getElementById("status").innerText = "Stopped";
+    }
+}
+</script>
+
+</body>
+</html>

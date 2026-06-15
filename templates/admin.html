@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Admin Dashboard</h1>
+
+    <div class="nav">
+        <a href="/">Home</a>
+        <a href="/dashboard">User Dashboard</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="card-grid">
+        <div class="card">
+            <h2>{{ total_users }}</h2>
+            <p>Total Users</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ total_results }}</h2>
+            <p>Total Resume Analyses</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ total_interviews }}</h2>
+            <p>Total Mock Interviews</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ average_score }}</h2>
+            <p>Average ATS Score</p>
+        </div>
+    </div>
+
+    <h2>Analytics Charts</h2>
+
+    <div class="chart-grid">
+        <div class="chart-card">
+            <h3>Job Role Selection</h3>
+            <canvas id="roleChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>System Activity</h3>
+            <canvas id="activityChart"></canvas>
+        </div>
+    </div>
+
+    <h2>All Users</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+
+        {% for user in users %}
+        <tr>
+            <td>{{ user[0] }}</td>
+            <td>{{ user[1] }}</td>
+            <td>{{ user[2] }}</td>
+            <td><span class="badge">{{ user[3] }}</span></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>All Resume Results</h2>
+
+    <table>
+        <tr>
+            <th>File Name</th>
+            <th>Job Role</th>
+            <th>ATS Score</th>
+            <th>Date</th>
+        </tr>
+
+        {% for result in results %}
+        <tr>
+            <td>{{ result[0] }}</td>
+            <td>{{ result[1] }}</td>
+            <td><b>{{ result[2] }}/100</b></td>
+            <td>{{ result[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>All Mock Interviews</h2>
+
+    <table>
+        <tr>
+            <th>Question</th>
+            <th>Answer</th>
+            <th>Feedback</th>
+            <th>Date</th>
+        </tr>
+
+        {% for interview in interviews %}
+        <tr>
+            <td>{{ interview[0] }}</td>
+            <td>{{ interview[1] }}</td>
+            <td><pre>{{ interview[2] }}</pre></td>
+            <td>{{ interview[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+<script type="application/json" id="role-data">
+    {{ role_data | tojson }}
+</script>
+
+<script type="application/json" id="summary-data">
+    {
+        "users": {{ total_users }},
+        "results": {{ total_results }},
+        "interviews": {{ total_interviews }}
+    }
+</script>
+
+<script>
+    const roleDataText = document.getElementById("role-data").textContent;
+    const summaryDataText = document.getElementById("summary-data").textContent;
+
+    const roleData = JSON.parse(roleDataText);
+    const summaryData = JSON.parse(summaryDataText);
+
+    const roleLabels = roleData.map(function(item) {
+        return item[0];
+    });
+
+    const roleCounts = roleData.map(function(item) {
+        return item[1];
+    });
+
+    const roleChartCanvas = document.getElementById("roleChart");
+
+    new Chart(roleChartCanvas, {
+        type: "bar",
+        data: {
+            labels: roleLabels,
+            datasets: [{
+                label: "Selected Count",
+                data: roleCounts,
+                backgroundColor: "#3b82f6",
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "#ffffff"
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: "#ffffff"
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: "#ffffff",
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    const activityChartCanvas = document.getElementById("activityChart");
+
+    new Chart(activityChartCanvas, {
+        type: "doughnut",
+        data: {
+            labels: ["Users", "Resume Analyses", "Mock Interviews"],
+            datasets: [{
+                data: [
+                    summaryData.users,
+                    summaryData.results,
+                    summaryData.interviews
+                ],
+                backgroundColor: [
+                    "#2563eb",
+                    "#16a34a",
+                    "#dc2626"
+                ],
+                borderColor: "#0f172a",
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "#ffffff"
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

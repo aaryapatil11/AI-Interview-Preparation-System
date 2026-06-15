@@ -1,0 +1,275 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: #f8fafc;
+}
+
+.container {
+    width: 85%;
+    max-width: 1300px;
+    margin: 35px auto;
+    background: #1e293b;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 0 30px rgba(37, 99, 235, 0.20);
+}
+
+h1 {
+    text-align: center;
+    color: #3b82f6;
+    font-size: 42px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    color: #f8fafc;
+    margin-top: 35px;
+}
+
+h3 {
+    color: #f8fafc;
+}
+
+p {
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.nav {
+    margin: 20px 0;
+    padding: 16px;
+    background: #0f172a;
+    border-radius: 12px;
+    border: 1px solid #334155;
+}
+
+.nav a {
+    color: #60a5fa;
+    text-decoration: none;
+    margin-right: 22px;
+    font-weight: bold;
+}
+
+.nav a:hover {
+    color: #93c5fd;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+    margin-top: 25px;
+}
+
+.card {
+    background: #0f172a;
+    border-left: 6px solid #3b82f6;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(37, 99, 235, 0.25);
+}
+
+.card h2 {
+    color: #3b82f6;
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    margin-top: 22px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 15px;
+    background: #0f172a;
+    color: #ffffff;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+button,
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 24px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+button:hover,
+.btn:hover {
+    background: #1d4ed8;
+}
+
+.btn-green {
+    background: #16a34a;
+}
+
+.btn-green:hover {
+    background: #15803d;
+}
+
+.btn-red {
+    background: #dc2626;
+}
+
+.btn-red:hover {
+    background: #b91c1c;
+}
+
+.score-box {
+    background: #0f172a;
+    border: 2px solid #2563eb;
+    border-radius: 18px;
+    text-align: center;
+    padding: 30px;
+    margin: 25px 0;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.20);
+}
+
+.score {
+    font-size: 50px;
+    color: #3b82f6;
+    font-weight: bold;
+}
+
+.badge {
+    display: inline-block;
+    background: #1e40af;
+    color: #ffffff;
+    padding: 9px 15px;
+    border-radius: 20px;
+    margin: 6px;
+    font-weight: bold;
+}
+
+.badge-red {
+    background: #dc2626;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #0f172a;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th {
+    background: #2563eb;
+    color: white;
+    padding: 14px;
+    text-align: left;
+}
+
+td {
+    padding: 13px;
+    border-bottom: 1px solid #334155;
+    vertical-align: top;
+}
+
+tr:hover {
+    background: #1e293b;
+}
+
+pre {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 20px;
+    color: #e2e8f0;
+    white-space: pre-wrap;
+    line-height: 1.6;
+    overflow-x: auto;
+}
+
+.auth-box {
+    max-width: 550px;
+}
+
+.footer-link {
+    display: block;
+    margin-top: 20px;
+    color: #60a5fa;
+    font-weight: bold;
+}
+
+.footer-link:hover {
+    color: #93c5fd;
+}
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.chart-card {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.chart-card h3 {
+    margin-top: 0;
+    color: #3b82f6;
+}
+
+canvas {
+    max-height: 350px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 94%;
+        padding: 22px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .nav a {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+}
