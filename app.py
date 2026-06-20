@@ -415,5 +415,24 @@ def admin_dashboard():
     )
 
 
+@app.route("/make_admin")
+def make_admin():
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    email = "aaryapatil011@gmail.com"
+
+    cursor.execute(
+        "UPDATE users SET role = 'admin' WHERE email = ?",
+        (email,)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return "Admin updated successfully. Now logout and login again."
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
